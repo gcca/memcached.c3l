@@ -1,0 +1,31 @@
+builddir = build
+test_sources = tests/create_test.c3 $
+  tests/make_test.c3 $
+  tests/free_test.c3 $
+  tests/server_count_test.c3 $
+  tests/raw_test.c3 $
+  tests/behavior_set_test.c3 $
+  tests/server_add_test.c3 $
+  tests/strerror_test.c3
+
+rule c3_test_compile
+  command = c3c compile-test --suppress-run --libdir .. --lib memcached --output-dir $builddir --build-dir $builddir --obj-out $builddir $test_sources
+  description = BUILD memcached tests
+
+rule c3_test_run
+  command = $builddir/testrun
+  description = TEST memcached
+
+build $builddir/testrun: c3_test_compile memcached.c3 memcached.c3i manifest.json $
+  tests/create_test.c3 $
+  tests/make_test.c3 $
+  tests/free_test.c3 $
+  tests/server_count_test.c3 $
+  tests/raw_test.c3 $
+  tests/behavior_set_test.c3 $
+  tests/server_add_test.c3 $
+  tests/strerror_test.c3
+build always: phony
+build test: c3_test_run $builddir/testrun | always
+
+default test
