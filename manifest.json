@@ -2,18 +2,18 @@
   "provides": "memcached",
   "targets": {
     "macos-aarch64": {
-      "linked-libraries": [ "memcached" ],
+      "linked-libraries": [ "memcached", "memcachedutil" ],
       "link-args": [ "-L/opt/homebrew/lib" ]
     },
     "macos-x64": {
-      "linked-libraries": [ "memcached" ],
+      "linked-libraries": [ "memcached", "memcachedutil" ],
       "link-args": [ "-L/usr/local/lib" ]
     },
     "linux-x64": {
-      "linked-libraries": [ "memcached" ]
+      "linked-libraries": [ "memcached", "memcachedutil" ]
     },
     "linux-aarch64": {
-      "linked-libraries": [ "memcached" ]
+      "linked-libraries": [ "memcached", "memcachedutil" ]
     }
   }
 }

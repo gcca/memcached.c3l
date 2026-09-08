@@ -1,4 +1,5 @@
 module memcached;
+import libc;
 
 typedef Memcached = inline void*;
 
@@ -56,18 +57,6 @@ enum MemcachedReturn : CInt
 	MEMCACHED_MAXIMUM_RETURN
 }
 
-extern fn Memcached memcached_create(Memcached ptr);
-
-extern fn Memcached memcached(char* string, usz string_length);
-
-extern fn void memcached_free(Memcached ptr);
-
-extern fn ZString memcached_strerror(Memcached ptr, MemcachedReturn rc);
-
-extern fn MemcachedReturn memcached_server_add(Memcached ptr, ZString hostname, ushort port);
-
-extern fn uint memcached_server_count(Memcached ptr);
-
 enum MemcachedBehavior : CInt
 {
 	MEMCACHED_BEHAVIOR_NO_BLOCK,
@@ -111,4 +100,34 @@ enum MemcachedBehavior : CInt
 	MEMCACHED_BEHAVIOR_MAX
 }
 
+const MEMCACHED_MAX_KEY = 251;
+
+extern fn Memcached memcached_create(Memcached ptr);
+
+extern fn Memcached memcached(char* string, usz string_length);
+
+extern fn void memcached_free(Memcached ptr);
+
+extern fn uint memcached_server_count(Memcached ptr);
+
 extern fn MemcachedReturn memcached_behavior_set(Memcached ptr, MemcachedBehavior flag, ulong data);
+
+extern fn MemcachedReturn memcached_mget(Memcached ptr, char** keys, usz* key_length, usz number_of_keys);
+
+extern fn char* memcached_fetch(Memcached ptr, char* key, usz* key_length, usz* value_length, uint* flags, MemcachedReturn* error);
+
+extern fn MemcachedReturn memcached_server_add(Memcached ptr, ZString hostname, ushort port);
+
+extern fn MemcachedReturn memcached_set(Memcached ptr, char* key, usz key_length, char* value, usz value_length, Time_t expiration, uint flags);
+
+extern fn ZString memcached_strerror(Memcached ptr, MemcachedReturn rc);
+
+typedef MemcachedPool = inline void*;
+
+extern fn MemcachedPool memcached_pool(char* string, usz string_length);
+
+extern fn Memcached memcached_pool_destroy(MemcachedPool pool);
+
+extern fn Memcached memcached_pool_pop(MemcachedPool pool, bool block, MemcachedReturn* rc);
+
+extern fn MemcachedReturn memcached_pool_push(MemcachedPool pool, Memcached mmc);
