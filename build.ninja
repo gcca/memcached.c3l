@@ -9,7 +9,9 @@ test_sources = tests/create_test.c3 $
   tests/strerror_test.c3 $
   tests/pool_test.c3 $
   tests/set_test.c3 $
+  tests/get_test.c3 $
   tests/mget_test.c3 $
+  tests/mset_test.c3 $
   tests/fetch_test.c3
 
 rule c3_test_compile
@@ -31,7 +33,9 @@ build $builddir/testrun: c3_test_compile memcached.c3 memcached.c3i manifest.jso
   tests/strerror_test.c3 $
   tests/pool_test.c3 $
   tests/set_test.c3 $
+  tests/get_test.c3 $
   tests/mget_test.c3 $
+  tests/mset_test.c3 $
   tests/fetch_test.c3
 build always: phony
 build test: c3_test_run $builddir/testrun | always

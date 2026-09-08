@@ -112,6 +112,8 @@ extern fn uint memcached_server_count(Memcached ptr);
 
 extern fn MemcachedReturn memcached_behavior_set(Memcached ptr, MemcachedBehavior flag, ulong data);
 
+extern fn char* memcached_get(Memcached ptr, char* key, usz key_length, usz* value_length, uint* flags, MemcachedReturn* error);
+
 extern fn MemcachedReturn memcached_mget(Memcached ptr, char** keys, usz* key_length, usz number_of_keys);
 
 extern fn char* memcached_fetch(Memcached ptr, char* key, usz* key_length, usz* value_length, uint* flags, MemcachedReturn* error);

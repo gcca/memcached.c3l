@@ -18,7 +18,20 @@ extern fn uint Memcached.server_count(self) @cname("memcached_server_count");
 
 extern fn MemcachedReturn Memcached.behavior_set(self, MemcachedBehavior flag, ulong data) @cname("memcached_behavior_set");
 
+extern fn char* Memcached.get(self, char* key, usz key_length, usz* value_length, uint* flags, MemcachedReturn* error) @cname("memcached_get");
+
 extern fn MemcachedReturn Memcached.mget(self, char** keys, usz* key_length, usz number_of_keys) @cname("memcached_mget");
+
+fn MemcachedReturn Memcached.mset(self, char** keys, usz* key_length, char** values, usz* value_length, usz number_of_keys, Time_t expiration, uint flags)
+{
+	if (!number_of_keys) return MemcachedReturn.MEMCACHED_INVALID_ARGUMENTS;
+	for (usz i = 0; i < number_of_keys; i++)
+	{
+		MemcachedReturn rc = self.set(keys[i], key_length[i], values[i], value_length[i], expiration, flags);
+		if (rc != MemcachedReturn.MEMCACHED_SUCCESS) return rc;
+	}
+	return MemcachedReturn.MEMCACHED_SUCCESS;
+}
 
 extern fn char* Memcached.fetch(self, char* key, usz* key_length, usz* value_length, uint* flags, MemcachedReturn* error) @cname("memcached_fetch");
 
